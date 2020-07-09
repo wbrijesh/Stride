@@ -1,66 +1,103 @@
 <p id="notice"><%= notice %></p>
 <%= render 'all-projects-view/navbar' %>
 
-
 <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-6 lg:px-8 lg:flex lg:items-center lg:justify-between">
   <h2 class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
     <%= @project.name %>
   </h2>
   <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
     <div class="inline-flex rounded-md shadow">
-      <%= link_to 'Edit', edit_project_path(@project),class:"inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" %>
-      <%= link_to 'Back', projects_path,class:"ml-5 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-800 bg-gray-200 hover:bg-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" %>
+      <%= link_to 'Edit', edit_project_path(@project),class:"inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" %>
+      <%= link_to 'Destroy', @project, method: :delete,class:"ml-5 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-200 bg-gray-800 hover:bg-orange-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out", data: { confirm: 'Are you sure?' } %>
     </div>
   </div>
 </div>
 <div class="container mx-auto">
 
+<div class="ml-6 mr-6">
+  <p class="text-gray-600 text-xl mx-2">
+    <%= @project.description %>
+  </p>
+
+  <hr class="mt-12">
+
+
+  <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-6 lg:px-8 lg:flex lg:items-center lg:justify-between">
+    <h2 class="text-2xl leading-9 font-medium tracking-tight text-gray-900 sm:text-2xl sm:leading-10">
+      Tasks for <%= @project.name %>
+    </h2>
+    <div class="flex lg:flex-shrink-0 lg:mt-0">
+      <div class="inline-flex rounded-md">
+        <%= form_for([@task.project, @task]) do |f| %>
+          <% if @task.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+              <ul>
+              <% @task.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+
+          <div class="flex">
+            <div class="flex flex-wrap ml-4">
+              <div class="w-3/5">
+                <%= f.text_field :name, placeholder: 'Enter task name', class:"appearance-none block w-full py-2 px-4 leading-snug text-gray-700 bg-gray-200 focus:bg-white border border-gray-200 focus:border-gray-500 rounded md:rounded-r-none" %>
+              </div>
+              <div class="hidden field">
+                <%= f.label :status %><br />
+                <%= f.select :status, Task::STATUS_OPTIONS %>
+              </div>
+              <div class="w-2/5">
+                <%= f.submit class: 'inline-block w-full py-3 px-4 leading-none text-white bg-gray-500 hover:bg-gray-600 rounded md:rounded-l-none' %>
+              </div>
+            </div>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
 
 
 
-    <p class="text-gray-600 text-2xl mx-2 font-semibold">
-      <%= @project.description %>
-    </p>
 
-    <hr>
+  <h1>Listing tasks</h1>
 
-    <h1>New task</h1>
-    <%= render 'tasks/form' %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Project</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
 
-    <hr>
+  <% @project.tasks.each do |task| %>
 
-    <h1>Listing tasks</h1>
-
-    <table>
+    <% if task.persisted? %>
       <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Project</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <td><%= task.name %></td>
+        <td><%= task.description %></td>
+        <td><%= task.status %></td>
+        <td><%= task.project %></td>
+        <td><%= link_to 'Show', [task.project, task] %></td>
+        <td><%= link_to 'Edit', edit_project_task_path(task.project, task) %></td>
+        <td><%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-
-    <% @project.tasks.each do |task| %>
-
-      <% if task.persisted? %>
-        <tr>
-          <td><%= task.name %></td>
-          <td><%= task.description %></td>
-          <td><%= task.status %></td>
-          <td><%= task.project %></td>
-          <td><%= link_to 'Show', [task.project, task] %></td>
-          <td><%= link_to 'Edit', edit_project_task_path(task.project, task) %></td>
-          <td><%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-
     <% end %>
-    </table>
 
-    <br />
+  <% end %>
+  </table>
 
-    <%= link_to 'New Task', new_project_task_path(@project.id) %>
+  <br />
+
+  <%= link_to 'New Task', new_project_task_path(@project.id) %>
+</div>
 
 </div>
