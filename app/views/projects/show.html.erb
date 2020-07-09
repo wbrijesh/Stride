@@ -1,55 +1,66 @@
 <p id="notice"><%= notice %></p>
+<%= render 'all-projects-view/navbar' %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @project.description %>
-</p>
+<div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-6 lg:px-8 lg:flex lg:items-center lg:justify-between">
+  <h2 class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
+    <%= @project.name %>
+  </h2>
+  <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
+    <div class="inline-flex rounded-md shadow">
+      <%= link_to 'Edit', edit_project_path(@project),class:"inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" %>
+      <%= link_to 'Back', projects_path,class:"ml-5 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-800 bg-gray-200 hover:bg-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" %>
+    </div>
+  </div>
+</div>
+<div class="container mx-auto">
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
 
-<hr>
 
-<h1>New task</h1>
-<%= render 'tasks/form' %>
 
-<hr>
+    <p class="text-gray-600 text-2xl mx-2 font-semibold">
+      <%= @project.description %>
+    </p>
 
-<h1>Listing tasks</h1>
+    <hr>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Status</th>
-    <th>Project</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+    <h1>New task</h1>
+    <%= render 'tasks/form' %>
 
-<% @project.tasks.each do |task| %>
+    <hr>
 
-  <% if task.persisted? %>
-    <tr>
-      <td><%= task.name %></td>
-      <td><%= task.description %></td>
-      <td><%= task.status %></td>
-      <td><%= task.project %></td>
-      <td><%= link_to 'Show', [task.project, task] %></td>
-      <td><%= link_to 'Edit', edit_project_task_path(task.project, task) %></td>
-      <td><%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
+    <h1>Listing tasks</h1>
 
-<% end %>
-</table>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Project</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
 
-<br />
+    <% @project.tasks.each do |task| %>
 
-<%= link_to 'New Task', new_project_task_path(@project.id) %>
+      <% if task.persisted? %>
+        <tr>
+          <td><%= task.name %></td>
+          <td><%= task.description %></td>
+          <td><%= task.status %></td>
+          <td><%= task.project %></td>
+          <td><%= link_to 'Show', [task.project, task] %></td>
+          <td><%= link_to 'Edit', edit_project_task_path(task.project, task) %></td>
+          <td><%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+
+    <% end %>
+    </table>
+
+    <br />
+
+    <%= link_to 'New Task', new_project_task_path(@project.id) %>
+
+</div>
