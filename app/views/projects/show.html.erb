@@ -6,7 +6,7 @@
     <%= @project.name %>
   </h2>
   <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
-    <div class="inline-flex rounded-md shadow">
+    <div class="inline-flex rounded-md">
       <%= link_to 'Edit', edit_project_path(@project),class:"inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" %>
       <%= link_to 'Destroy', @project, method: :delete,class:"ml-5 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-200 bg-gray-800 hover:bg-orange-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out", data: { confirm: 'Are you sure?' } %>
     </div>
@@ -62,42 +62,22 @@
     </div>
   </div>
 
+  <div class="mt-8">
+    <% @project.tasks.each do |task| %>
 
+      <% if task.persisted? %>
+        <%= link_to [task.project, task], class:'text-gray-600 text-lg' do %>
+          <div class="ml-12 font-bold">
+            <%= task.name %>
+          </div>
 
+          <br>
+        <% end %>
+      <% end %>
 
-  <h1>Listing tasks</h1>
-
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Status</th>
-      <th>Project</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-
-  <% @project.tasks.each do |task| %>
-
-    <% if task.persisted? %>
-      <tr>
-        <td><%= task.name %></td>
-        <td><%= task.description %></td>
-        <td><%= task.status %></td>
-        <td><%= task.project %></td>
-        <td><%= link_to 'Show', [task.project, task] %></td>
-        <td><%= link_to 'Edit', edit_project_task_path(task.project, task) %></td>
-        <td><%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
     <% end %>
+  </div>
 
-  <% end %>
-  </table>
-
-  <br />
-
-  <%= link_to 'New Task', new_project_task_path(@project.id) %>
 </div>
 
 </div>
