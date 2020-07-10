@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<%= link_to 'Destroy', @project_task, method: :delete,class:"ml-5 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-200 bg-gray-800 hover:bg-orange-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out", data: { confirm: 'Are you sure?' } %>
 <p>
   <b>Name:</b>
   <%= @task.name %>
