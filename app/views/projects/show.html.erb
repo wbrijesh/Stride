@@ -29,32 +29,15 @@
     <div class="flex lg:flex-shrink-0 lg:mt-0">
       <div class="inline-flex rounded-md">
         <%= form_for([@task.project, @task]) do |f| %>
-          <% if @task.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
-              <ul>
-              <% @task.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
 
-
-          <div class="flex">
             <div class="flex flex-wrap ml-4">
               <div class="w-3/5">
                 <%= f.text_field :name, placeholder: 'Enter task name', class:"appearance-none block w-full py-2 px-4 leading-snug text-gray-700 bg-gray-200 focus:bg-white border border-gray-200 focus:border-gray-500 rounded md:rounded-r-none" %>
-              </div>
-              <div class="hidden field">
-                <%= f.label :status %><br />
-                <%= f.select :status, Task::STATUS_OPTIONS %>
               </div>
               <div class="w-2/5">
                 <%= f.submit class: 'inline-block w-full py-3 px-4 leading-none text-white bg-gray-500 hover:bg-gray-600 rounded md:rounded-l-none' %>
               </div>
             </div>
-          </div>
 
         <% end %>
 
@@ -68,6 +51,9 @@
       <% if task.persisted? %>
         <%= link_to [task.project, task], class:'text-gray-600 text-lg' do %>
           <div class="ml-12 font-bold">
+            <div style="max-width: 100px; text-align: center;" class="py-0 rounded-full text-sm font-medium bg-purple-600 text-white px-2">
+              <%= task.status %>
+            </div>
             <%= task.name %>
           </div>
 
