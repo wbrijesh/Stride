@@ -1,4 +1,13 @@
 
-# Tailwind UI, Tailwind CSS, AlpineJS & Inter Typeface for Ruby on Rails. 
+# Stride Project Management
 
-Repo for the article found [here](https://medium.com/@davidteren/production-ready-tailwind-ui-tailwind-css-alpinejs-inter-typeface-for-ruby-on-rails-part-1-46f24daf1b26)
+Installation:
+1. git clone https://github.com/wbrijesh/stride.git
+2. cd stride
+3. bundle install ; yarn install
+4. gem install foreman
+5. foreman start
+
+Gems:
+1. Devise
+2. Nested_scaffolds
